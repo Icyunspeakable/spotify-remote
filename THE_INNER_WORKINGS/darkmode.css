@@ -1,0 +1,142 @@
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0;
+	font-family: Arial, sans-serif;
+	background-color: #726464;
+}
+
+.panel {
+	width: 300px;
+	border: 1px solid #575050;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgb(212, 204, 204);
+	background-color: #222020;
+	padding: 20px;
+}
+
+.info {
+	text-align: center;
+}
+
+.song,
+.artist {
+	margin: 5px 0;
+}
+
+.album-art {
+	width: 100px;
+	height: 100px;
+	margin: 10px auto;
+	background-color: #4e4949;
+	border: 1px solid #555151;
+}
+
+.controls {
+	margin-top: 20px;
+}
+
+.progress-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.current-time,
+.total-time {
+	font-size: 12px;
+}
+
+.progress-bar {
+	flex-grow: 1;
+	height: 10px;
+	background-color: #424040;
+	margin: 0 10px;
+	position: absolute;
+	border-radius: 5px;
+	overflow: hidden;
+	top: 255px;
+	left: 30px;
+}
+
+.progress {
+	width: 0;
+	height: 100%;
+	background-color: #8bc34a;
+	position: absolute;
+	top: 255px;
+	left: 30px;
+}
+
+.buttons {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 10px;
+}
+
+.control-button {
+	padding: 10px;
+	flex: 1;
+	margin: 0 5px;
+	border: 1px solid #d3c7c7;
+	background-color: #3f3a3a;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+.control-button:hover {
+	background-color: #2e2c2c;
+}
+
+.volume-control {
+	position: absolute;
+	left: -25px;
+	top: 200px;
+	width: 200px;
+}
+
+.slider {
+	width: 80%;
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	transform: rotate(-90deg);
+}
+
+.slidecontainer {
+	width: 100%;
+}
+
+.seek {
+	-webkit-appearance: none;
+	width: 100%;
+	height: 12px;
+	background: #d3d3d3;
+	outline: none;
+	opacity: 0.7;
+	-webkit-transition: 0.2s;
+	transition: opacity 0.2s;
+}
+
+.seek:hover {
+	opacity: 1;
+}
+
+.seek::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 12px;
+	height: 12px;
+	background: #04aa6d;
+	cursor: pointer;
+}
+
+.seek::-moz-range-thumb {
+	width: 12px;
+	height: 12px;
+	background: #04aa6d;
+	cursor: pointer;
+}

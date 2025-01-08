@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" id="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="panel">
+        <div class="volume-control">
+            <input type="range" min="0" max="100" value="50" class="slider" id="volume">
+        </div>
+        <div class="info">
+            <p class="song" id="song"></p>
+            <p class="artist" id="artist"></p>
+            <img src="" class="album-art" id="albumArtElement"></img>
+        </div>
+        
+        <div class="controls">
+            <div class="slidecontainer" id="seek">
+                <span class="current-time" id="current"></span>
+                <span class="current-time" id="Slash">/</span>
+                <span class="total-time" id="total"></span>
+                <input type="range" min="1" max="1000" value="" class="seek" id="myRange">
+              </div>
+                
+            </div>
+            <div class="buttons">
+                <button class="control-button" id="prev">◁</button>
+                <button class="control-button" id="pause">pause</button>
+                <button class="control-button" id="play">play</button>
+                <button class="control-button" id="loop">loop</button>
+                <button class="control-button" id="next">▷</button>
+            </div>
+            <button class="mode" id="themeSwitcher"> Dark Mode</button>
+        </div>
+       
+    </div>
+    
+    <script src="renderer.js"></script>
+</body>
+</html>

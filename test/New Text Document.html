@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Spotify Progress Bar</title>
+		<style>
+			.progress-bar {
+				width: 80%;
+				background-color: #eee;
+				height: 30px;
+				margin: 20px auto;
+				position: relative;
+			}
+
+			.progress {
+				height: 100%;
+				background-color: #1db954;
+				width: 0;
+				transition: width 0.1s ease-in-out;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="progress-bar">
+			<div class="progress" id="progress"></div>
+		</div>
+
+		<script>
+			const accessToken =
+				'BQDGKHZg7uU6UiozV7tMM98o5mqV6rneHU4mv7CbACH8ZL2DTEab98Yyb9h_6X_DIdzaD7IZIOXywmY2lJEQ3XiMrE7DgfapqQlMt96yJ-byXLeJg8hlNqSe3yQ7QvCjUX-YnAX4hLh0KhuC-60boE5Mv-PJUj46f9qiCy4pC58rJ5Dslsy_E4tWfijPi_2vQuBlaW5-cuhah2Buj0v8TZQbE8_g' // Replace with your access token
+
+			async function fetchWithAuth(url) {
+				const response = await fetch(url, {
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				})
+
+				if (!response.ok) {
+					throw new Error(
+						`Error: ${response.status} ${response.statusText}`
+					)
+				}
+
+				return await response.json()
+			}
+
+			async function updateProgressBar() {
+				try {
+					const data = await fetchWithAuth(
+						'https://api.spotify.com/v1/me/player/currently-playing'
+					)
+
+					if (!data || !data.is_playing || !data.item) {
+						console.log('No playback data available.')
+						return
+					}
+
+					const progress_ms = data.progress_ms
+					const duration_ms = data.item.duration_ms
+					const progressPercent = (progress_ms / duration_ms) * 100
+
+					document.getElementById('progress').style.width =
+						`${progressPercent}%`
+				} catch (error) {
+					console.error('Error updating progress bar:', error)
+				}
+			} //if this no work I gonna die
+
+			setInterval(updateProgressBar, 1000) // Update progress bar every second
+		</script>
+	</body>
+</html>

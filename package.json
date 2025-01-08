@@ -1,0 +1,33 @@
+{
+	"name": "npm-init",
+	"version": "1.0.2",
+	"description": "remote control for spotify",
+	"main": "index.js",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"test": "test",
+		"start": "electron index.js"
+	},
+	"keywords": [
+		"spotify",
+		"remote"
+	],
+	"author": "Icy~",
+	"license": "ISC",
+	"dependencies": {
+		"cookie-parser": "^1.4.6",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.5",
+		"electron": "^31.1.0",
+		"exec": "^0.2.1",
+		"express": "^4.19.2",
+		"fs": "^0.0.1-security",
+		"querystring": "^0.2.1",
+		"request": "^2.88.2"
+	},
+	"devDependencies": {
+		"prettier": "3.3.3"
+	}
+}

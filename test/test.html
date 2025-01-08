@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Spotify Play/Pause</title>
+	</head>
+	<body>
+		<button id="play">Play</button>
+		<button id="pause">Pause</button>
+
+		<script>
+			const accessToken =
+				'BQDGKHZg7uU6UiozV7tMM98o5mqV6rneHU4mv7CbACH8ZL2DTEab98Yyb9h_6X_DIdzaD7IZIOXywmY2lJEQ3XiMrE7DgfapqQlMt96yJ-byXLeJg8hlNqSe3yQ7QvCjUX-YnAX4hLh0KhuC-60boE5Mv-PJUj46f9qiCy4pC58rJ5Dslsy_E4tWfijPi_2vQuBlaW5-cuhah2Buj0v8TZQbE8_g' // Replace with your access token
+
+			async function fetchWithAuth(url, options) {
+				const response = await fetch(url, {
+					...options,
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+						'Content-Type': 'application/json',
+						...options.headers,
+					},
+				})
+
+				if (!response.ok) {
+					const error = await response.json()
+					throw new Error(
+						`Error: ${response.status} ${error.error.message}`
+					)
+				}
+
+				return response
+			}
+
+			document
+				.getElementById('play')
+				.addEventListener('click', async () => {
+					try {
+						await fetchWithAuth(
+							'https://api.spotify.com/v1/me/player/play',
+							{
+								method: 'PUT',
+							}
+						)
+						console.log('Playback started')
+					} catch (error) {
+						console.error('Error starting playback:', error)
+					}
+				})
+
+			document
+				.getElementById('pause')
+				.addEventListener('click', async () => {
+					try {
+						await fetchWithAuth(
+							'https://api.spotify.com/v1/me/player/pause',
+							{
+								method: 'PUT',
+							}
+						)
+						console.log('Playback paused')
+					} catch (error) {
+						console.error('Error pausing playback:', error)
+					}
+				})
+		</script>
+	</body>
+</html>

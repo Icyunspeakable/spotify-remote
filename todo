@@ -1,0 +1,10 @@
+~~slider has 100 ticks each tick represents some amount of miliseconds, the miliseconds are different for each song because they are based off of the total duration of the song~~
+~~take the total miliseconds of the song and divide it by 100 then take the new value out of that and multiply it by the current tick I am on the slider~~
+~~The tick I am on is the number that outputs after the string time. Time var is the tick~~
+~~send the message so that I have the tick and then do the actual processing via functions soon to be located in spotify.js~~
+~~grab the artist for the current song~~
+~~grab the name of the current song~~
+~~display artist and song name~~
+Good Work!
+Now add dark mode
+toggleable via a button
