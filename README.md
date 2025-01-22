@@ -17,4 +17,14 @@
 <div>
   <span>Let's take a look at the backend for this</span>
   <img src="https://cdn.discordapp.com/attachments/776228439006248960/1331762647883841586/image.png?ex=6792cc1e&is=67917a9e&hm=2176cfad1f4b2dabd1663906a177fdbc4b7bd622c4c425fd634af83ad5bae326&">
+
+  <span>as you can see it grabs information from spotify such as</span>
+    -## The Song Name
+    -## The Song Artist
+    -## The Song's Cover Art
+    -## The Song's Position
+    -## The Users Spotify Volume
+    -## The Length of The Current Song 
+    ---
 </div>
+<h2>Now, How does this all work???</h2>
