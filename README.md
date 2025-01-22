@@ -29,3 +29,16 @@
   ---
 </div>
 <h2>Now, How does this all work???</h2>
+
+---
+
+By communicating with spotify's API and also communicating with itself (IN ENGLISH) via IPC
+
+---
+
+To use it you will need to download the entire repository, then install node, then install electron, after all of these steps (will release full build soon that has these built in) you will simply open the entire workspace in code and type 
+
+npm start
+
+
+and it will open up spotify login page (because it needs to link to specifically your spotify (this data is not stored anywhere and is only necessary for this app to be able to interact with the spotify player) then all you need to do is open spotify, select a song and hit play, then you can minimize spotify and use the remote (note that spotify premium is required for some of the functions to work)
