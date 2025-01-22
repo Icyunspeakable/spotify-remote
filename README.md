@@ -11,4 +11,10 @@
  
   
   <span>It also allows you to change the current song position, volume, play/pause, skip the song, play the previous song, etc...</span>
+
+  This app also logs all the songs you have listened to in the console (log file coming soon)
 </h1>
+<div>
+  <span>Let's take a look at the backend for this</span>
+  <img src="https://cdn.discordapp.com/attachments/776228439006248960/1331762647883841586/image.png?ex=6792cc1e&is=67917a9e&hm=2176cfad1f4b2dabd1663906a177fdbc4b7bd622c4c425fd634af83ad5bae326&">
+</div>
