@@ -6,5 +6,10 @@
 ~~grab the name of the current song~~
 ~~display artist and song name~~
 Good Work!
+add in support for japanese characters or better yet characters from other languages
 Now add dark mode
-toggleable via a button
+    toggleable via a button
+integration with obs
+ have it send the currently playing song to twitch chat and possibly even have a stream label that displays this information by pulling it from the backend json file
+ have it update every second (or every time a song change takes place)
+ 
