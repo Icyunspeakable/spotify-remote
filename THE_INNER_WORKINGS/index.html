@@ -18,13 +18,13 @@
         </div>
         
         <div class="controls">
-            <div class="slidecontainer" id="seek">
-                <span class="current-time" id="current"></span>
-                <span class="current-time" id="Slash">/</span>
-                <span class="total-time" id="total"></span>
-                <input type="range" min="1" max="1000" value="" class="seek" id="myRange">
-              </div>
-                
+            <div class="seek-section">
+                <div class="seek-times">
+                    <span class="current-time" id="current">0:00</span>
+                    <span class="time-sep">/</span>
+                    <span class="total-time" id="total">0:00</span>
+                </div>
+                <input type="range" min="0" max="1000" value="0" class="seek" id="myRange" aria-label="Seek position in track">
             </div>
             <div class="buttons">
                 <button class="control-button" id="prev">◁</button>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotify widget</title>
+  <link rel="stylesheet" href="widget.css" />
+</head>
+<body>
+  <div class="widget" id="root">
+    <section class="now" aria-label="Now playing">
+      <img class="art" id="art" alt="" width="96" height="96" hidden />
+      <div class="now-text">
+        <div class="label">Now playing</div>
+        <div class="title" id="title">—</div>
+        <div class="subtitle" id="subtitle"></div>
+        <div class="progress-block">
+          <div class="progress-times">
+            <span id="posTime" class="mono">0:00</span>
+            <span class="time-sep">/</span>
+            <span id="durTime" class="mono">0:00</span>
+          </div>
+          <div
+            class="progress-track"
+            id="progressTrack"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+            aria-label="Track progress"
+          >
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+        <div class="meta">
+          <span id="state" class="state"></span>
+          <span id="liked" class="liked" hidden aria-label="Liked">♥</span>
+        </div>
+      </div>
+    </section>
+    <section class="recent" aria-label="Recently played">
+      <div class="label">Recently played</div>
+      <ul class="list" id="list"></ul>
+    </section>
+  </div>
+  <script src="widget.js"></script>
+</body>
+</html>

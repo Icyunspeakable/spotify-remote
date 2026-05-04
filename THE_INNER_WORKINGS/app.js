@@ -20,7 +20,7 @@ loopButton.addEventListener('click', toggleLoop);
 
 async function fetchCurrentTrack() {
     try {
-        const response = await fetch('http://localhost/current-track');
+        const response = await fetch('http://127.0.0.1:8000/current-track');
         const data = await response.json();
         
         // Update HTML elements with the current track data
