@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const pauseButton = document.getElementById('pause')
 	const nextButton = document.getElementById('next')
 	const prevButton = document.getElementById('prev')
-	const loopButton = document.getElementById('loop')
+	const likeButton = document.getElementById('like')
 	const slider = document.getElementById('volume')
 	const artistElement = document.getElementById('artist')
 	const songElement = document.getElementById('song')
@@ -14,8 +14,48 @@ document.addEventListener('DOMContentLoaded', () => {
 	const durationText = document.getElementById('total')
 	const themeSwitcher = document.getElementById('themeSwitcher')
 
+	const THEME_ORIGIN = 'http://127.0.0.1:8000'
+
 	let lastDurationMs = 0
 	let seekDragging = false
+	let currentTrackId = ''
+
+	function syncVolumeSliderDisplay(val) {
+		const n = Math.min(100, Math.max(0, Number(val)))
+		slider.style.setProperty('--vol-pct', `${n}%`)
+		slider.setAttribute('aria-valuenow', String(n))
+		slider.setAttribute('aria-valuetext', `${n}% volume`)
+	}
+
+	syncVolumeSliderDisplay(volume.value)
+
+	function applyUiTheme(theme) {
+		const dark = theme === 'dark'
+		document.documentElement.classList.toggle('dark', dark)
+		themeSwitcher.textContent = dark ? 'Light mode' : 'Dark mode'
+	}
+
+	function themeFromPayload(data) {
+		return data.uiTheme === 'dark' ? 'dark' : 'light'
+	}
+
+	async function postUiTheme(theme) {
+		try {
+			await fetch(`${THEME_ORIGIN}/ui-theme`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ theme }),
+			})
+		} catch (_) {}
+	}
+
+	themeSwitcher.addEventListener('click', async () => {
+		const next = document.documentElement.classList.contains('dark')
+			? 'light'
+			: 'dark'
+		applyUiTheme(next)
+		await postUiTheme(next)
+	})
 
 	function formatMs(ms) {
 		if (!Number.isFinite(ms) || ms < 0) ms = 0
@@ -37,6 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			)
 			const data = await response.json()
 
+			applyUiTheme(themeFromPayload(data))
+
 			const hasTrack = Boolean(data.trackName)
 			const hasProgress =
 				hasTrack &&
@@ -54,7 +96,16 @@ document.addEventListener('DOMContentLoaded', () => {
 					albumArtElement.removeAttribute('src')
 					albumArtElement.hidden = true
 				}
-				if (data.volume != null) volume.value = data.volume
+				if (data.volume != null) {
+					volume.value = data.volume
+					syncVolumeSliderDisplay(data.volume)
+				}
+				currentTrackId = data.trackId || data.Trackid
+			} else {
+				songElement.textContent = 'Nothing playing'
+				artistElement.textContent = 'Start playback in Spotify'
+				albumArtElement.removeAttribute('src')
+				albumArtElement.hidden = true
 			}
 
 			if (hasProgress) {
@@ -104,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	})
 
 	slider.addEventListener('input', () => {
+		syncVolumeSliderDisplay(slider.value)
 		window.api.send('spotify', 'volume' + slider.value)
 	})
 
@@ -123,7 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		window.api.send('spotify', 'previous')
 	})
 
-	loopButton.addEventListener('click', () => {
-		window.api.send('spotify', 'toggleloop')
+	likeButton.addEventListener('click', () => {
+		if (!currentTrackId) {
+			console.error('error no track id')
+			return
+		}
+		window.api.send('spotify', 'like' + ' ' + currentTrackId)
 	})
 })

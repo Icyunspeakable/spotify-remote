@@ -10,13 +10,13 @@ const playButton = document.getElementById('play');
 const pauseButton = document.getElementById('pause');
 const nextButton = document.getElementById('next');
 const prevButton = document.getElementById('prev');
-const loopButton = document.getElementById('loop');
+const likeButton = document.getElementById('like');
 
 playButton.addEventListener('click', play);
 pauseButton.addEventListener('click', pause);
 nextButton.addEventListener('click', next);
 prevButton.addEventListener('click', previous);
-loopButton.addEventListener('click', toggleLoop);
+likeButton.addEventListener('click', toggleLike);
 
 async function fetchCurrentTrack() {
     try {

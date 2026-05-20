@@ -16,6 +16,9 @@ const redirect_uri = `${SERVER_ORIGIN}/callback`
 let shared_access_token = ''
 let shared_refresh_token = ''
 
+/** @type {'light' | 'dark'} shared by Electron UI + `/widget`; no disk persistence */
+let sharedUiTheme = 'light'
+
 let currentTrackCached = {}
 let recentTracksCached = []
 /** @type {Record<string, boolean>} */
@@ -112,8 +115,19 @@ async function init(initData) {
 	app
 		.use(express.static(path.join(__dirname, 'public')))
 		.use('/widget', express.static(path.join(__dirname, '..', 'widget')))
+		.use(express.json({ limit: '2kb' }))
 		.use(cors())
 		.use(cookieParser())
+
+	app.get('/ui-theme', (req, res) => {
+		res.json({ theme: sharedUiTheme })
+	})
+
+	app.post('/ui-theme', (req, res) => {
+		const t = req.body && req.body.theme
+		if (t === 'dark' || t === 'light') sharedUiTheme = t
+		res.json({ theme: sharedUiTheme })
+	})
 
 	const scopes = [
 		'user-read-private',
@@ -159,11 +173,12 @@ async function init(initData) {
 	refreshRecentTracks().catch(() => {})
 
 	app.get('/current-track', (req, res) => {
-		res.json(
-			currentTrackCached && Object.keys(currentTrackCached).length
+		const cached =
+			currentTrackCached &&
+			Object.keys(currentTrackCached).length
 				? currentTrackCached
 				: {}
-		)
+		res.json({ ...cached, uiTheme: sharedUiTheme })
 	})
 
 	app.get('/recent-tracks', (req, res) => {
@@ -178,6 +193,7 @@ async function init(initData) {
 					: {},
 			recent: recentTracksCached,
 			updated_at: new Date().toISOString(),
+			uiTheme: sharedUiTheme,
 		})
 	})
 
@@ -468,6 +484,18 @@ async function onIpc(event, message) {
 			})
 		})
 		log(`{blue}Position changed to ` + target_ms)
+	}
+	const likeprefix = 'like'
+	if (message.startsWith(likeprefix)) {
+		const trackId = message.slice(likeprefix.length)
+		const isLiked = likedByTrackId[trackId]
+		const method = isLiked ? 'DELETE' : 'PUT'
+		const url = `https://api.spotify.com/v1/me/tracks?ids=${trackId}`
+		await spotifyRequest(method, url)
+		likedByTrackId[trackId] = !isLiked
+		log(
+			`{blue}${isLiked ? 'Unliked' : 'Liked'} track with ID: ` + trackId
+		)
 	}
 }
 module.exports = {

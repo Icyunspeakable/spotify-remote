@@ -1,5 +1,43 @@
 const POLL_MS = 1000
 const API = 'http://127.0.0.1:8000/widget-data'
+const RECENT_COLLAPSED_KEY = 'spotifyWidgetRecentCollapsed'
+
+function initRecentCollapse() {
+  const section = document.getElementById('recentSection')
+  const btn = document.getElementById('recentToggle')
+  if (!section || !btn) return
+
+  try {
+    const collapsed = localStorage.getItem(RECENT_COLLAPSED_KEY) === '1'
+    btn.setAttribute('aria-expanded', String(!collapsed))
+    section.classList.toggle('recent--collapsed', collapsed)
+  } catch (_) {
+    btn.setAttribute('aria-expanded', 'true')
+  }
+
+  btn.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true'
+    const nextExpanded = !expanded
+    btn.setAttribute('aria-expanded', String(nextExpanded))
+    section.classList.toggle('recent--collapsed', !nextExpanded)
+    try {
+      localStorage.setItem(
+        RECENT_COLLAPSED_KEY,
+        nextExpanded ? '0' : '1'
+      )
+    } catch (_) {}
+  })
+}
+
+/** @returns {'light' | 'dark'} */
+function normalizeUiTheme(theme) {
+  return theme === 'dark' ? 'dark' : 'light'
+}
+
+function applyUiTheme(theme) {
+  const t = normalizeUiTheme(theme)
+  document.documentElement.classList.toggle('dark', t === 'dark')
+}
 
 function likedClass(isLiked) {
   if (isLiked === true) return 'on'
@@ -56,12 +94,18 @@ function updateProgress(cur) {
 
 function render(data) {
   const cur = data.current || {}
+  applyUiTheme(data.uiTheme)
+
   const art = document.getElementById('art')
   const titleEl = document.getElementById('title')
   const subtitleEl = document.getElementById('subtitle')
   const stateEl = document.getElementById('state')
   const likedEl = document.getElementById('liked')
   const listEl = document.getElementById('list')
+  const progressBlock = document.getElementById('progressBlock')
+
+  const hasTrack = Boolean(cur.trackName)
+  progressBlock.hidden = !hasTrack
 
   updateProgress(cur)
 
@@ -86,8 +130,9 @@ function render(data) {
         'liked' + (cur.is_liked === true ? '' : ' dim')
     }
   } else {
-    titleEl.textContent = 'Nothing playing'
+    titleEl.textContent = 'Nothing is playing'
     subtitleEl.textContent = ''
+    art.removeAttribute('src')
     art.hidden = true
     stateEl.textContent = ''
     likedEl.hidden = true
@@ -130,9 +175,11 @@ async function tick() {
     document.getElementById('title').textContent = 'Waiting for backend…'
     document.getElementById('subtitle').textContent = String(e.message || e)
     document.getElementById('list').innerHTML = ''
+    document.getElementById('progressBlock').hidden = true
     updateProgress({})
   }
 }
 
+initRecentCollapse()
 tick()
 setInterval(tick, POLL_MS)

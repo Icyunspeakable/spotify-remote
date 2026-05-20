@@ -14,7 +14,7 @@
         <div class="label">Now playing</div>
         <div class="title" id="title">—</div>
         <div class="subtitle" id="subtitle"></div>
-        <div class="progress-block">
+        <div class="progress-block" id="progressBlock">
           <div class="progress-times">
             <span id="posTime" class="mono">0:00</span>
             <span class="time-sep">/</span>
@@ -38,9 +38,22 @@
         </div>
       </div>
     </section>
-    <section class="recent" aria-label="Recently played">
-      <div class="label">Recently played</div>
-      <ul class="list" id="list"></ul>
+    <section class="recent" id="recentSection" aria-label="Recently played">
+      <button
+        type="button"
+        class="recent-toggle"
+        id="recentToggle"
+        aria-expanded="true"
+        aria-controls="recentPanel"
+      >
+        <span class="recent-toggle-label">Recently played</span>
+        <span class="recent-chevron" aria-hidden="true">▾</span>
+      </button>
+      <div class="recent-panel" id="recentPanel">
+        <div class="recent-panel-inner">
+          <ul class="list" id="list"></ul>
+        </div>
+      </div>
     </section>
   </div>
   <script src="widget.js"></script>
